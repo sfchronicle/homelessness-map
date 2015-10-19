@@ -1,0 +1,17 @@
+*.pyc
+django.log
+django.log*
+bower_components
+node_modules
+.DS_Store
+.coverage
+data/
+
+*/settings/local_settings.py
+*.css
+*.css.map
+
+build/
+gzip/
+static/
+migrations/

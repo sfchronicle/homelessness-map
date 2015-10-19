@@ -1,0 +1,44 @@
+"""
+This management command takes a model created with csv_to_model and provides
+code to upload it to a `RawData` model in a new app.
+
+Edit this code with the following:
+
+1. The app name and model name (I like RawData)
+2. name of the CSV in the DATA_DIR
+3. Match the GeneratedModel attributes to the column headers in the source csv
+
+Finally, save as load_raw_model.py and execute
+"""
+import os
+
+from django.conf import settings
+from django.core.management.base import BaseCommand
+
+from lib.utils import all_files, log
+from postgres_copy import CopyMapping
+
+from {{project_name}}.apps.ADD_APP_NAME_HERE.models import RawData
+
+
+class Command(BaseCommand):
+def handle(self, *args, **options):
+    data = os.path.join(settings.BASE_DIR, 'data')
+    files = list(all_files(data, '*.csv'))  # assumes there's only one CSV in directory
+
+    for filepath in files:
+        log('Opening file {}'.format(filepath), 'cyan')
+
+        log('  Loading data ...')
+
+        copy = CopyMapping(
+            RawData,
+            filepath,
+            dict(
+                some_property="Some Property"
+            )
+        )
+
+        copy.save()
+
+        log('    Data loaded!', 'green')

@@ -1,0 +1,15 @@
+language: python
+python:
+    - '2.7'
+    - '3.4'
+install:
+- pip install django
+- django-admin.py startproject --extension=py,.gitignore --template=https://github.com/sfchronicle/django-project-template/archive/master.zip aproject
+- cd aproject
+- if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then pip install -r requirements/python2.txt; fi
+- pip install -r requirements/base.txt
+script:
+- pep8 lib
+- pep8 --ignore=E121,E123,E126,E226,E24,E704,E402 fabfile
+- pyflakes lib
+- coverage run setup.py test
