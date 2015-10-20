@@ -13,6 +13,7 @@ var complaints = {
   "features": [
   {% for complaint in complaints %}
     {
+      "id": {{ complaint.id }},
       "type": "Feature",
       "geometry": {
         "type": "Point",
@@ -28,6 +29,6 @@ var complaints = {
 };
 
 App.init();
-App.renderJson( complaints );
+App.perf( complaints );
 </script>
 {% endblock %}

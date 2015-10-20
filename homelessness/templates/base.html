@@ -8,7 +8,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:title" content="homelessness">
-    <meta property="og:image" content="http://media.apps.cironline.org/richmond/images/logo1x.png">
     <meta property="og:description" content="">
 
     <title>homelessness</title>
@@ -33,6 +32,7 @@
     {% endblock %}
 
     {% compress js %}
+    <script src="{% static 'bower_components/d3/d3.js'%}"></script>
     <script src="{% static 'bower_components/leaflet/dist/leaflet-src.js'%}"></script>
     {% endcompress %}
 

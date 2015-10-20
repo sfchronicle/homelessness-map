@@ -1,3 +1,18 @@
 #map {
   height: 800px;
 }
+
+text {
+  fill: white;
+}
+
+svg {
+  position: relative;
+}
+
+path {
+  fill-opacity: 0.2;
+  &.waste { fill: brown; }
+  &.needle { fill: yellow; }
+  &.encampment {  fill: white; }
+}
