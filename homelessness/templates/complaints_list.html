@@ -1,27 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<main>
+    <section id="map"></section>
+</main>
 {% endblock %}
 
 {% block javascript %}
 <script>
 var complaints = {
-    "type": "FeatureCollection",
-    "features": [
-    {% for complaint in complaints %}
-        {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": [{{ complaint.longitude }}, {{ complaint.latitude }}]
-            },
-            "properties": {
-                "date": new Date("{{ complaint.date }}"),
-                "kind": "{{ complaint.kind }}"
-            }
-        },
-    {% endfor %}
-   ]
- }
+  "type": "FeatureCollection",
+  "features": [
+  {% for complaint in complaints %}
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [{{ complaint.longitude }}, {{ complaint.latitude }}]
+      },
+      "properties": {
+        "date": new Date("{{ complaint.date }}"),
+        "kind": "{{ complaint.kind }}"
+      }
+    },
+  {% endfor %}
+  ]
+};
+
+App.init();
+App.renderJson( complaints );
 </script>
 {% endblock %}

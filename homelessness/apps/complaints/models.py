@@ -12,11 +12,12 @@ class Complaint(models.Model):
         max_length=255,
         blank=True,
         null=True,
-        choices=KIND_CHOICES
+        choices=KIND_CHOICES,
+        db_index=True
     )
-    date = models.DateField()
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    date = models.DateField(db_index=True)
+    latitude = models.FloatField(db_index=True)
+    longitude = models.FloatField(db_index=True)
 
     def __unicode__(self):
         return "{} {}".format(self.kind, self.date)

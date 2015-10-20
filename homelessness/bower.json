@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "jquery": "~1.11.1",
+    "leaflet": "~0.7.5",
     "modernizr": "~2.8.2"
   }
 }

@@ -41,7 +41,7 @@ ALLOWED_HOSTS = []
 
 # Whether or not you want to use grunt.js with the runserver command and fab
 # http://gruntjs.com/
-USE_GRUNT = False
+USE_GRUNT = True
 
 # Whether or not to use PostGIS
 # http://postgis.net/

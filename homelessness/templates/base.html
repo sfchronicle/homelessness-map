@@ -15,8 +15,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="http://cironline.org/sites/all/themes/cir/favicon.ico">
 
     {% compress css %}
-    <!-- bower:css -->
-    <!-- endbower -->
+    <link rel="stylesheet" href="{% static 'bower_components/leaflet/dist/leaflet.css' %}">
     <link rel="stylesheet" href="{% static "styles/main.css" %}">
     {% endcompress %}
 
@@ -34,9 +33,11 @@
     {% endblock %}
 
     {% compress js %}
-    <!-- bower:js -->
-    <!-- endbower -->
-    <script src="{% static "scripts/main.js" %}"></script>
+    <script src="{% static 'bower_components/leaflet/dist/leaflet-src.js'%}"></script>
+    {% endcompress %}
+
+    {% compress js %}
+    <script src="{% static 'scripts/main.js' %}"></script>
     {% endcompress %}
 
     {% block javascript %}
