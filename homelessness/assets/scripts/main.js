@@ -1,4 +1,4 @@
-/*global L, d3 */
+/*global L, d3, complaints */
 
 'use strict';
 
@@ -8,6 +8,8 @@ App.map = L.map('map').setView([37.7833, -122.4167], 13);
 
 App.init = function () {
   this.render();
+  this.perf( complaints );
+  this.addControl();
 };
 
 App.render = function () {
@@ -16,6 +18,42 @@ App.render = function () {
   });
 
   this.map.addLayer(layer);
+};
+
+App.addControl = function () {
+  // create the control
+  var control = L.control({position: 'topright'});
+
+  control.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'toggle-control');
+
+      div.innerHTML = '<h4>Toggle</h4>';
+      div.innerHTML += '<form>';
+
+      div.innerHTML += '<input id="encampment" class="toggle" type="checkbox" checked/>Encampment <br>';
+      div.innerHTML += '<input id="waste" class="toggle" type="checkbox" checked/>Human Waste <br>';
+      div.innerHTML += '<input id="needle" class="toggle" type="checkbox" checked/>Needles <br>';
+
+      div.innerHTML += '</form>';
+      return div;
+  };
+
+  control.addTo(App.map);
+
+  // add the event handler
+  function handleCommand (event) {
+    var pointClass = '.'+event.target.id;
+    if (event.target.checked) {
+        d3.selectAll(pointClass).attr('visibility', 'visible');
+    } else {
+      d3.selectAll(pointClass).attr('visibility', 'hidden');
+    }
+  }
+
+  var nodes = document.querySelectorAll('.toggle');
+  for (var i = 0; i < nodes.length; i++) {
+    nodes[i].addEventListener('click', handleCommand, false);
+  }
 };
 
 App.renderJson = function (geoJson) {
