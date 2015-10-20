@@ -44,7 +44,7 @@ App.addControl = function () {
   function handleCommand (event) {
     var pointClass = '.'+event.target.id;
     if (event.target.checked) {
-        d3.selectAll(pointClass).attr('visibility', 'visible');
+      d3.selectAll(pointClass).attr('visibility', 'visible');
     } else {
       d3.selectAll(pointClass).attr('visibility', 'hidden');
     }
@@ -186,6 +186,19 @@ App.perf = function (geoJson) {
   function redrawSubset(subset) {
     path.pointRadius(3);// * scale);
 
+    var checkForToggle = function () {
+      var toggles = document.querySelectorAll('.toggle');
+      for (var i = 0; i < toggles.length; i++) {
+        var pointClass = '.'+toggles[i].id;
+
+        if (toggles[i].checked) {
+          d3.selectAll(pointClass).attr('visibility', 'visible');
+        } else {
+          d3.selectAll(pointClass).attr('visibility', 'hidden');
+        }
+      }
+    }
+
     var bounds = path.bounds({ type: 'FeatureCollection', features: subset });
     var topLeft = bounds[0];
     var bottomRight = bounds[1];
@@ -218,6 +231,8 @@ App.perf = function (geoJson) {
 
 
     console.log('updated at  ' + new Date().setTime(new Date().getTime() - start.getTime()) + ' ms ');
+
+    checkForToggle();
 
   }
 
