@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [{% for complaint in complaints %}{
+    "id": {{ complaint.id }},
+    "type": "Feature",
+    "geometry": {
+      "type": "Point",
+      "coordinates": [{{ complaint.longitude }}, {{ complaint.latitude }}]
+    },
+    "properties": {
+      "date": "{{ complaint.date }}",
+      "kind": "{{ complaint.kind }}"
+    }
+  }{% if not forloop.last %},{% endif %}{% endfor %}]
+}
