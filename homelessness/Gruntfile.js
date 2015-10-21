@@ -85,7 +85,7 @@ module.exports = function (grunt) {
     sass: {
       options: {
         sourceMap: true,
-        includePaths: ['bower_components']
+        includePaths: require('node-refills').includePaths.concat('static/bower_components')
         },
       dist: {
         files: [{

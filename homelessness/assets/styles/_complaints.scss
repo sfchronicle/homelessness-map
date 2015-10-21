@@ -1,32 +1,53 @@
-#map {
-  height: 800px;
-}
-
-text {
-  fill: white;
-}
-
-svg {
+main {
+  height: 100vh;
+  // max-width: 781px;
   position: relative;
 }
 
-path {
-  fill-opacity: 0.2;
-  &.waste { fill: brown; }
-  &.needle { fill: yellow; }
-  &.encampment {  fill: white; }
+article {
+  $space: 10px;
+  position: absolute;
+  z-index: 20;
+  max-width: em(400);
+  background-color: rgba(#fff, 0.9);
+  padding: $space * 2;
+  top: $space;
+  left: $space;
 }
 
-.toggle-control {
-  padding: 6px 8px;
-  font: 14px/16px Arial, Helvetica, sans-serif;
-  background: white;
-  background: rgba(255,255,255,0.8);
-  box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  border-radius: 5px;
+header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #222;
 
-  h4 {
-    margin: 0 0 5px;
-    color: #777;
+  img {
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#map {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: #333;
+
+  &.leaflet-fullscreen-on { position: relative; }
+}
+
+label {
+  display: block;
+  position: relative;
+
+  input {
+    margin-right: 15px;
   }
 }

@@ -10,11 +10,15 @@
     <meta property="og:title" content="homelessness">
     <meta property="og:description" content="">
 
-    <title>homelessness</title>
-    <link rel="shortcut icon" type="image/x-icon" href="http://cironline.org/sites/all/themes/cir/favicon.ico">
+    <title>Mapping 311 complaints in San Francisco | San Francisco Chronicle</title>
+    <link rel="icon" href="http://www.sfchronicle.com/favicon.ico?v=2">
 
     {% compress css %}
+    <link rel="stylesheet" href="{% static 'bower_components/normalize-css/normalize.css' %}">
     <link rel="stylesheet" href="{% static 'bower_components/leaflet/dist/leaflet.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/Leaflet.fullscreen/dist/leaflet.fullscreen.css'%}">
+    <link rel="stylesheet" href="{% static 'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css'%}">
+    <link rel="stylesheet" href="{% static 'bower_components/pelias-leaflet-geocoder/dist/pelias-leaflet-geocoder.css'%}">
     <link rel="stylesheet" href="{% static "styles/main.css" %}">
     {% endcompress %}
 
@@ -36,6 +40,9 @@
     <script src="{% static 'scripts/geobuf-dev.js'%}"></script>
     <script src="{% static 'bower_components/d3/d3.js'%}"></script>
     <script src="{% static 'bower_components/leaflet/dist/leaflet-src.js'%}"></script>
+    <script src="{% static 'bower_components/Leaflet.fullscreen/dist/Leaflet.fullscreen.js'%}"></script>
+    <script src="{% static 'bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js'%}"></script>
+    <script src="{% static 'bower_components/pelias-leaflet-geocoder/dist/pelias-leaflet-geocoder.js'%}"></script>
     {% endcompress %}
 
     {% compress js %}
@@ -44,6 +51,15 @@
 
     {% block javascript %}
     {% endblock %}
+
+    <script type="text/javascript">
+        (function() {
+            var css = document.createElement('link');
+            css.href = '//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css';
+            css.rel = 'stylesheet'; css.type = 'text/css';
+            document.getElementsByTagName('head')[0].appendChild(css);
+        })();
+    </script>
 
     <script type="text/javascript" async src="//platform.twitter.com/widgets.js"></script>
 

@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content %}
 <main>
+    {% include '_article.html' %}
     <section id="map"></section>
 </main>
 {% endblock %}
 
 {% block javascript %}
 <script>
+window.MAPZEN_SEARCH_KEY = '{{ MAPZEN_SEARCH_KEY }}';
+window.PBF_DATA_URL = '{% static "complaints.pbf" %}';
+
 App.init();
 </script>
 {% endblock %}

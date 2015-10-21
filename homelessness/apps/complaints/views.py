@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from bakery.views import BuildableTemplateView, BuildableListView
 from .models import Complaint
 
@@ -15,8 +17,7 @@ class ComplaintListView(ComplaintBaseView):
     template_name = 'complaints_list.html'
     build_path = 'index.html'
 
-    # def get_context_data(self, **kwargs ):
-    #     context = super(ComplaintListView, self).get_context_data(**kwargs)
-    #     context['complaints'] = Complaint.objects.filter(
-    #         date__range=['2007-01-01', '2015-12-31'])
-    #     return context
+    def get_context_data(self, **kwargs ):
+        context = super(ComplaintListView, self).get_context_data(**kwargs)
+        context['MAPZEN_SEARCH_KEY'] = settings.MAPZEN_SEARCH_KEY
+        return context

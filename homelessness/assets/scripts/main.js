@@ -3,14 +3,23 @@
 'use strict';
 
 var App = App || {};
+var config = {
+  center: [37.7729, -122.4475],
+  zoom: 14,
+  zoomControl: false,
+  minZoom: 13,
+  fullscreenControl: false,
+  scrollWheelZoom: false,
+  doubleClickZoom: false,
 
-App.map = L.map('map').setView([37.7833, -122.4167], 13);
+};
+
+App.map = L.map('map', config);
 App.dataView = 'all'; // default
-App.dataUrl = '/static/complaints.pbf';
 
 App.init = function () {
   var self = this;
-  self.getArrayBuffer(self.dataUrl, self.render);
+  self.getArrayBuffer(PBF_DATA_URL, self.render);
   self.buildMapComponents();
 };
 
@@ -49,37 +58,36 @@ App.buildMapComponents = function () {
   /* Add tilelayer to leaflet map
   */
   var self = this;
-  var control = L.control({position: 'topright'});
   var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
     attribution: '© OpenStreetMap contributors, © CartoDB'
   });
 
   self.map.addLayer(layer);
 
-  control.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'toggle-control');
-    div.innerHTML = '<h4>Complaint type</h4>';
+  new L.Control.Zoom({ position: 'topright' }).addTo(self.map);
+  new L.Control.Fullscreen({ position: 'topright' }).addTo(self.map);
 
-    var tmpl = '<form>'
-           + '<input id="encampment" class="toggle" type="checkbox" checked/>Encampment <br>'
-           + '<input id="waste" class="toggle" type="checkbox" checked/>Human Waste <br>'
-           + '<input id="needle" class="toggle" type="checkbox" checked/>Needles <br>'
-           + '<hr>'
-           + '<h4>Years</h4>'
-           + '<select id="years">'
-           + '<option value="all">2011 - 2015</option>'
-           + '<option value="2011">2011</option>'
-           + '<option value="2012">2012</option>'
-           + '<option value="2013">2013</option>'
-           + '<option value="2014">2014</option>'
-           + '<option value="2015">2015</option>'
-           + '</form>';
+  // Searching within a bounding box
+  // Calculated with App.map.getBounds();
+  var southWest = L.latLng(37.73909154437981, -122.58235931396484);
+  var northEast = L.latLng(37.78102667641841, -122.33808517456056);
+  var bounds = L.latLngBounds(southWest, northEast);
 
-    div.innerHTML += tmpl
-    return div;
-  };
+  // Custom marker
+  var searchMarker = L.AwesomeMarkers.icon({
+    icon: 'circle-o',
+    prefix: 'fa',
+    markerColor: 'cadetblue'
+  });
 
-  control.addTo(App.map);
+
+  new L.Control.Geocoder(MAPZEN_SEARCH_KEY, {
+    position: 'topright',
+    layers: 'address',
+    panToPoint: false,
+    bounds: bounds,
+    markers: { icon: searchMarker }
+  }).addTo(self.map);
 
   // add the event handler
   function handleCommand (event) {

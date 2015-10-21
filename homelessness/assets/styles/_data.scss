@@ -1,0 +1,35 @@
+text {
+  fill: white;
+}
+
+svg {
+  position: relative;
+}
+
+path {
+  fill-opacity: 0.2;
+  &.waste { fill: brown; }
+  &.needle { fill: yellow; }
+  &.encampment {  fill: white; }
+}
+
+.legend {
+  $size: 10px;
+  display: inline-block;
+  width: $size;
+  height: $size;
+  border: 1px solid rgba(#999, 0.8);
+  border-radius: 5px;
+
+  &::after {
+    position: absolute;
+    content: "|";
+    color: lightgray;
+    bottom: 0;
+    left: 18px;
+  }
+
+  &.waste { background-color: lighten(rgb(165, 42, 42), 15%); }
+  &.needle { background-color: yellow; }
+  &.encampment {  background-color: white; }
+}

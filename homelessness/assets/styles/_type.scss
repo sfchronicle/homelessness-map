@@ -1,0 +1,60 @@
+$header-font: 'AntennaBold', Arial, sans-serif;
+$sans-serif: 'AntennaMedium', Arial, sans-serif;
+$serif: 'FarnhamText', Georgia, serif;
+$link-color: #C12020;
+
+main {
+  font-family: $serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $header-font;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+h1 {
+  font-size: em(21);
+}
+
+h2 {
+  font-size: em(18);
+}
+
+p {
+  font-size: em(16);
+}
+
+a,
+.leaflet-control-attribution a {
+  color: $link-color;
+  text-decoration: none;
+  
+  &:hover {
+    color: darken($link-color, 10%);
+  }
+}
+
+.leaflet-popup-content,
+.leaflet-pelias-control,
+.leaflet-control-attribution {
+  font-family: $sans-serif;
+}
+
+form {
+  label {
+    font-family: $sans-serif;
+    font-weight: normal;
+    font-size: em(14);
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  select {
+    font-family: $sans-serif;
+  }
+}
