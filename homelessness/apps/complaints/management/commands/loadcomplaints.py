@@ -13,8 +13,8 @@ from homelessness.apps.complaints.models import Complaint
 
 class Command(BaseCommand):
     ENCAMP_CSV = 'all_encampments_simple.csv'
-    WASTE_CSV = 'all_human_waste_refined_simple.csv'
-    NEEDLE_CSV = 'all_needle_refined_simple.csv'
+    WASTE_CSV = '311_humanwaste.csv'
+    NEEDLE_CSV = '311_needles.csv'
 
     def update_records(self, filepath):
         log('  Updating Complaints associated with {} ...'.format(filepath))
@@ -35,9 +35,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         data = os.path.join(settings.BASE_DIR, 'data')
-        files = list(all_files(data, '*_simple.csv'))
+        files = list(all_files(data, '*.csv'))
 
         for filepath in files:
+            if os.path.basename(filepath) not in [self.ENCAMP_CSV, self.WASTE_CSV, self.NEEDLE_CSV]:
+                continue
+                
             log('Opening file {}'.format(filepath), 'cyan')
             log('  Loading data ...')
 
