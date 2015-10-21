@@ -29,7 +29,7 @@ module.exports = function (grunt) {
 
     // Project settings
     config: config,
-    
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       options: {
@@ -63,12 +63,15 @@ module.exports = function (grunt) {
         ]
       }
     },
-    
+
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
         jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
+        reporter: require('jshint-stylish'),
+        ignores: [
+          '<%= config.app %>/scripts/*-dev.js'
+        ]
       },
       all: [
         'Gruntfile.js',
@@ -111,7 +114,7 @@ module.exports = function (grunt) {
         map: {
           prev: '<%= config.app %>/styles'
         }
-        
+
       },
       dist: {
         files: [{
@@ -122,7 +125,7 @@ module.exports = function (grunt) {
         }]
       }
     },
-    
+
     // The following *-min tasks produce minified files in the dist folder
     imagemin: {
       dist: {
