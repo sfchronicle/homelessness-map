@@ -27,11 +27,16 @@ p {
   font-size: em(16);
 }
 
+small {
+  font-family: $sans-serif;
+  font-size: em(12);
+}
+
 a,
 .leaflet-control-attribution a {
   color: $link-color;
   text-decoration: none;
-  
+
   &:hover {
     color: darken($link-color, 10%);
   }
