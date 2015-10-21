@@ -45,7 +45,7 @@ $ cd {PROJECT_ROOT}/homelessness/node_modules/pbf && npm install && npm run buil
 $ cd {PROJECT_ROOT/}homelessness/node_modules/geobuf && npm install && npm run build-dev && cp dist/geobuf-dev.js ../../assets/scripts/  # building browser version of geobuf and copy file to assets
 ```
 
-### Setup Mapzen Search
+## Setup Mapzen Search
 
 We're using [Mapzen's excellent Pelias search engine](https://mapzen.com/projects/search) and [leaflet plugin](https://github.com/pelias/leaflet-geocoder) to power the map search. Here's how to enable this feature in the map:
 
