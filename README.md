@@ -33,7 +33,7 @@ We're using pbf since it's way more performant than geojson or topojson (in this
 $ fab rs  # start server
 $ curl http://127.0.0.1:8000/geojson.json/ > homelessness/assets/complaints.geojson  # download geojson
 $ npm install geobuf -g  # install geobuf
-$ json2geobuf homelessness/assets/complaints.json  #=> complaints.pbf convert JSON to pbf file
+$ json2geobuf homelessness/assets/complaints.geojson > homelessness/assets/complaints.pbf #=> complaints.pbf convert JSON to pbf file
 ```
 
 ### Build pbf and geobuf from source for the web
@@ -44,3 +44,12 @@ To use a pbf file in the web, we need to build and include the pbf and geobuf li
 $ cd {PROJECT_ROOT}/homelessness/node_modules/pbf && npm install && npm run build-dev && cp dist/pbf-dev.js ../../assets/scripts/  # building browser version of pbf and copy file to assets
 $ cd {PROJECT_ROOT/}homelessness/node_modules/geobuf && npm install && npm run build-dev && cp dist/geobuf-dev.js ../../assets/scripts/  # building browser version of geobuf and copy file to assets
 ```
+
+### Setup Mapzen Search
+
+We're using [Mapzen's excellent Pelias search engine](https://mapzen.com/projects/search) and [leaflet plugin](https://github.com/pelias/leaflet-geocoder) to power the map search. Here's how to enable this feature in the map:
+
+1. Sign up for a [free Mapzen API Key](https://mapzen.com/developers)
+2. Add your API key to `settings/local_settings.py` to the variable `MAPZEN_SEARCH_KEY`
+
+Search should now work on the map!
