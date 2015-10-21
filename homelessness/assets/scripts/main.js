@@ -6,50 +6,55 @@ var App = App || {};
 
 App.map = L.map('map').setView([37.7833, -122.4167], 13);
 App.dataView = 'all'; // default
+App.dataUrl = '/static/complaints.pbf';
 
 App.init = function () {
   var self = this;
-  self.render();
-  self.getprotobuf('/static/complaints.pbf');
-  self.addControl();
-
+  self.getArrayBuffer(self.dataUrl, self.render);
+  self.buildMapComponents();
 };
 
-App.getprotobuf = function (url) {
-  var xmlhttp = new XMLHttpRequest();
+App.getArrayBuffer = function (url, callback) {
+  /* Borrowed from mapbox-gl-js
+    https://github.com/mapbox/mapbox-gl-js/blob/d932579e6ef68479c799ff71affbc1520c19c3b7/js/util/browser/ajax.js#L27-L43
+    ====
 
-  xmlhttp.open('GET', url, true);
-  xmlhttp.responseType = 'arraybuffer';
-
-  xmlhttp.onreadystatechange = function () {
-    if (xmlhttp.readyState === 4) {
-      if (xmlhttp.status === 200) {
-        var pbf = new Pbf( new Uint8Array( xmlhttp.response ) );
-        var geojson = geobuf.decode( pbf );
-
-        App.perf( geojson );
-      }
-    }
+    Fetch an array buffer and pass to a callback
+  */
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.responseType = 'arraybuffer';
+  xhr.onerror = function(e) {
+      callback(e);
   };
-
-  xmlhttp.send(null);
+  xhr.onload = function() {
+      if (xhr.status >= 200 && xhr.status < 300 && xhr.response) {
+          callback(null, xhr.response);
+      } else {
+          callback(new Error(xhr.statusText));
+      }
+  };
+  xhr.send();
+  return xhr;
 };
 
-App.render = function () {
+App._decodeGeoBuffer = function (response) {
+  /* Take an array buffer (in this case a geobuf) and decode it to geojson)
+  */
+  var pbf = new Pbf( new Uint8Array( response ) );
+  return geobuf.decode( pbf );
+};
+
+App.buildMapComponents = function () {
+  /* Add tilelayer to leaflet map
+  */
+  var self = this;
+  var control = L.control({position: 'topright'});
   var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
     attribution: '© OpenStreetMap contributors, © CartoDB'
   });
 
-  this.map.addLayer(layer);
-};
-
-App.filterByValue = function (value) {
-  App.dataView = value;
-};
-
-App.addControl = function () {
-  // create the control
-  var control = L.control({position: 'topright'});
+  self.map.addLayer(layer);
 
   control.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'toggle-control');
@@ -92,7 +97,14 @@ App.addControl = function () {
   }
 };
 
-App.perf = function (geoJson) {
+App.render = function (error, response) {
+  /*
+  Function to render data onto map using d3 quadtrees
+  */
+  if (error) { throw error; }
+
+  var geoJson = App._decodeGeoBuffer( response );
+
   var qtree = d3.geom.quadtree(geoJson.features.map(function (data, i) {
     return { x: data.geometry.coordinates[0], y: data.geometry.coordinates[1], all: data };
   }));
