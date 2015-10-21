@@ -1,10 +1,11 @@
-/*global L, d3, complaints */
+/*global document, L, d3, XMLHttpRequest, Pbf, geobuf */
 
 'use strict';
 
 var App = App || {};
 
 App.map = L.map('map').setView([37.7833, -122.4167], 13);
+App.dataView = 'all'; // default
 
 App.init = function () {
   var self = this;
@@ -32,7 +33,7 @@ App.getprotobuf = function (url) {
   };
 
   xmlhttp.send(null);
-}
+};
 
 App.render = function () {
   var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
@@ -42,22 +43,35 @@ App.render = function () {
   this.map.addLayer(layer);
 };
 
+App.filterByValue = function (value) {
+  App.dataView = value;
+};
+
 App.addControl = function () {
   // create the control
   var control = L.control({position: 'topright'});
 
   control.onAdd = function (map) {
-      var div = L.DomUtil.create('div', 'toggle-control');
+    var div = L.DomUtil.create('div', 'toggle-control');
+    div.innerHTML = '<h4>Complaint type</h4>';
 
-      div.innerHTML = '<h4>Toggle</h4>';
-      div.innerHTML += '<form>';
+    var tmpl = '<form>'
+           + '<input id="encampment" class="toggle" type="checkbox" checked/>Encampment <br>'
+           + '<input id="waste" class="toggle" type="checkbox" checked/>Human Waste <br>'
+           + '<input id="needle" class="toggle" type="checkbox" checked/>Needles <br>'
+           + '<hr>'
+           + '<h4>Years</h4>'
+           + '<select id="years">'
+           + '<option value="all">2011 - 2015</option>'
+           + '<option value="2011">2011</option>'
+           + '<option value="2012">2012</option>'
+           + '<option value="2013">2013</option>'
+           + '<option value="2014">2014</option>'
+           + '<option value="2015">2015</option>'
+           + '</form>';
 
-      div.innerHTML += '<input id="encampment" class="toggle" type="checkbox" checked/>Encampment <br>';
-      div.innerHTML += '<input id="waste" class="toggle" type="checkbox" checked/>Human Waste <br>';
-      div.innerHTML += '<input id="needle" class="toggle" type="checkbox" checked/>Needles <br>';
-
-      div.innerHTML += '</form>';
-      return div;
+    div.innerHTML += tmpl
+    return div;
   };
 
   control.addTo(App.map);
@@ -185,6 +199,12 @@ App.perf = function (geoJson) {
   function redrawSubset(subset) {
     path.pointRadius(3);// * scale);
 
+    if (App.dataView !== 'all') {
+      subset = subset.filter(function (d) {
+        return new Date( d.properties.date ).getFullYear() === parseInt( App.dataView );
+      });
+    }
+
     var checkForToggle = function () {
       var toggles = document.querySelectorAll('.toggle');
       for (var i = 0; i < toggles.length; i++) {
@@ -196,7 +216,7 @@ App.perf = function (geoJson) {
           d3.selectAll(pointClass).attr('visibility', 'hidden');
         }
       }
-    }
+    };
 
     var bounds = path.bounds({ type: 'FeatureCollection', features: subset });
     var topLeft = bounds[0];
@@ -220,7 +240,7 @@ App.perf = function (geoJson) {
     points.enter().append('path');
     points.exit().remove();
     points.attr('d', path);
-    points.attr('class', function(d) { return d.properties.kind; })
+    points.attr('class', function(d) { return d.properties.kind; });
 
     points.style('fill-opacity', function (d) {
       if (d.group) {
@@ -240,8 +260,19 @@ App.perf = function (geoJson) {
     var subset = search(qtree, mapBounds.getWest(), mapBounds.getSouth(), mapBounds.getEast(), mapBounds.getNorth());
     console.log('subset: ' + subset.length);
 
+    App.currentSubset = subset; // cache value for filtering
     redrawSubset(subset);
   }
+
+  function handleChange (e) {
+    var option   = e.target.options[e.target.selectedIndex];
+    App.dataView =  option.value;
+
+    redrawSubset( App.currentSubset );
+  }
+
+  var yearSelect = document.querySelector('select');
+  yearSelect.addEventListener('change', handleChange, false);
 
   var transform = d3.geo.transform({ point: projectPoint });
   var path = d3.geo.path().projection(transform);
