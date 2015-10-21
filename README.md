@@ -1,4 +1,5 @@
 # Homelessness Map
+<img width="1150" alt="screen shot 2015-10-20 at 8 35 20 am" src="https://cloud.githubusercontent.com/assets/856628/10612447/b8c2fe22-7705-11e5-8443-f58100f2aee3.png">
 
 ## Minimum Requirements
 This project supports Ubuntu Linux 14.04 and Mac OS X Yosemite. It is not tested or supported for the Windows OS.
