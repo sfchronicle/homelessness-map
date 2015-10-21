@@ -32,6 +32,8 @@
     {% endblock %}
 
     {% compress js %}
+    <script src="{% static 'scripts/pbf-dev.js'%}"></script>
+    <script src="{% static 'scripts/geobuf-dev.js'%}"></script>
     <script src="{% static 'bower_components/d3/d3.js'%}"></script>
     <script src="{% static 'bower_components/leaflet/dist/leaflet-src.js'%}"></script>
     {% endcompress %}

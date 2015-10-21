@@ -7,10 +7,32 @@ var App = App || {};
 App.map = L.map('map').setView([37.7833, -122.4167], 13);
 
 App.init = function () {
-  this.render();
-  this.perf( complaints );
-  this.addControl();
+  var self = this;
+  self.render();
+  self.getprotobuf('/static/complaints.pbf');
+  self.addControl();
+
 };
+
+App.getprotobuf = function (url) {
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.open('GET', url, true);
+  xmlhttp.responseType = 'arraybuffer';
+
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState === 4) {
+      if (xmlhttp.status === 200) {
+        var pbf = new Pbf( new Uint8Array( xmlhttp.response ) );
+        var geojson = geobuf.decode( pbf );
+
+        App.perf( geojson );
+      }
+    }
+  };
+
+  xmlhttp.send(null);
+}
 
 App.render = function () {
   var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',{
@@ -54,29 +76,6 @@ App.addControl = function () {
   for (var i = 0; i < nodes.length; i++) {
     nodes[i].addEventListener('click', handleCommand, false);
   }
-};
-
-App.renderJson = function (geoJson) {
-  function colorPicker (feature) {
-    switch (feature.properties.kind) {
-      case 'encampment': return 'white';
-      case 'needle':     return 'yellow';
-      case 'waste':      return 'brown';
-    }
-  }
-
-  L.geoJson(geoJson, {
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng, {
-        radius: 2,
-        fillColor: colorPicker(feature),
-        color: 'white',
-        weight: 0,
-        opacity: 1,
-        fillOpacity: 0.8,
-      });
-    }
-  }).addTo(App.map);
 };
 
 App.perf = function (geoJson) {

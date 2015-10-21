@@ -7,6 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Admin
-    (r'^admin/', admin.site.urls),
+(r'^admin/', admin.site.urls),
     (r'^$', views.ComplaintListView.as_view()),
+    (r'^geojson.json/$', views.ComplaintGeoJSONListView.as_view()),
 )

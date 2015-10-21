@@ -15,3 +15,7 @@ build/
 gzip/
 static/
 migrations/
+
+*.geojson
+*.topojson
+*.pbf

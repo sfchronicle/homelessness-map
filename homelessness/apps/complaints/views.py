@@ -1,9 +1,17 @@
 from bakery.views import BuildableTemplateView, BuildableListView
 from .models import Complaint
 
-class ComplaintListView(BuildableListView):
+class ComplaintBaseView(BuildableListView):
     model = Complaint
     context_object_name = 'complaints'
+
+
+class ComplaintGeoJSONListView(ComplaintBaseView):
+    template_name = 'complaints_geojson.html'
+    content_type = 'application/json'
+
+
+class ComplaintListView(ComplaintBaseView):
     template_name = 'complaints_list.html'
     build_path = 'index.html'
 
