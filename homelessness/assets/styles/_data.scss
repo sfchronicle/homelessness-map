@@ -1,3 +1,7 @@
+$encampment: white;
+$waste: brown;
+$needle: yellow;
+
 text {
   fill: white;
 }
@@ -8,9 +12,9 @@ svg {
 
 path {
   fill-opacity: 0.2;
-  &.waste { fill: brown; }
-  &.needle { fill: yellow; }
-  &.encampment {  fill: white; }
+  &.waste { fill: $waste; }
+  &.needle { fill: $needle; }
+  &.encampment {  fill: $encampment; }
 }
 
 .legend {
@@ -29,7 +33,7 @@ path {
     left: 18px;
   }
 
-  &.waste { background-color: lighten(rgb(165, 42, 42), 15%); }
-  &.needle { background-color: yellow; }
-  &.encampment {  background-color: white; }
+  &.waste { background-color: lighten($waste, 15%); }
+  &.needle { background-color: $needle; }
+  &.encampment {  background-color: $encampment; }
 }
