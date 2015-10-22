@@ -12,6 +12,11 @@ class ComplaintGeoJSONListView(ComplaintBaseView):
     template_name = 'complaints_geojson.html'
     content_type = 'application/json'
 
+    def get_context_data(self, **kwargs ):
+        context = super(ComplaintGeoJSONListView, self).get_context_data(**kwargs)
+        context['complaints'] = Complaint.objects.filter()
+        return context
+
 
 class ComplaintListView(ComplaintBaseView):
     template_name = 'complaints_list.html'

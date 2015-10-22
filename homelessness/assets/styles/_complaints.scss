@@ -1,7 +1,11 @@
+$mobile: 640px;
+
 main {
   height: 100vh;
-  // max-width: 781px;
   position: relative;
+  @include media(max-width $mobile) {
+    height: 100%;
+  }
 }
 
 article {
@@ -13,6 +17,13 @@ article {
   padding: $space * 2;
   top: $space;
   left: $space;
+
+  @include media(max-width $mobile) {
+    position: relative;
+    z-index: 1;
+    top: em(204);
+    left: 0;
+  }
 }
 
 header {
@@ -39,8 +50,13 @@ h1 {
   height: 100%;
   width: 100%;
   background-color: #333;
-
   &.leaflet-fullscreen-on { position: relative; }
+
+  @include media(max-width $mobile) {
+    position: fixed;
+    top: 0;
+    height: 200px;
+  }
 }
 
 label {

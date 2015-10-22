@@ -4,8 +4,8 @@
 
 var App = App || {};
 var config = {
-  center: [37.7729, -122.4475],
-  zoom: 14,
+  center: [37.7605, -122.4727],
+  zoom: 13,
   zoomControl: false,
   minZoom: 13,
   fullscreenControl: false,
@@ -65,29 +65,6 @@ App.buildMapComponents = function () {
   self.map.addLayer(layer);
 
   new L.Control.Zoom({ position: 'topright' }).addTo(self.map);
-  new L.Control.Fullscreen({ position: 'topright' }).addTo(self.map);
-
-  // Searching within a bounding box
-  // Calculated with App.map.getBounds();
-  var southWest = L.latLng(37.73909154437981, -122.58235931396484);
-  var northEast = L.latLng(37.78102667641841, -122.33808517456056);
-  var bounds = L.latLngBounds(southWest, northEast);
-
-  // Custom marker
-  var searchMarker = L.AwesomeMarkers.icon({
-    icon: 'circle-o',
-    prefix: 'fa',
-    markerColor: 'cadetblue'
-  });
-
-
-  new L.Control.Geocoder(MAPZEN_SEARCH_KEY, {
-    position: 'topright',
-    layers: 'address',
-    panToPoint: false,
-    bounds: bounds,
-    markers: { icon: searchMarker }
-  }).addTo(self.map);
 
   // add the event handler
   function handleCommand (event) {
@@ -217,7 +194,7 @@ App.render = function (error, response) {
   }
 
   function redrawSubset(subset) {
-    path.pointRadius(3);// * scale);
+    path.pointRadius(2);// * scale);
 
     if (App.dataView !== 'all') {
       subset = subset.filter(function (d) {
@@ -225,7 +202,7 @@ App.render = function (error, response) {
       });
     }
 
-    var checkForToggle = function () {
+    function checkForToggle () {
       var toggles = document.querySelectorAll('.toggle');
       for (var i = 0; i < toggles.length; i++) {
         var pointClass = '.'+toggles[i].id;
@@ -236,7 +213,7 @@ App.render = function (error, response) {
           d3.selectAll(pointClass).attr('visibility', 'hidden');
         }
       }
-    };
+    }
 
     var bounds = path.bounds({ type: 'FeatureCollection', features: subset });
     var topLeft = bounds[0];

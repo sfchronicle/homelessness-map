@@ -11,7 +11,7 @@ svg {
 }
 
 path {
-  fill-opacity: 0.2;
+  fill-opacity: 0.5;
   &.waste { fill: $waste; }
   &.needle { fill: $needle; }
   &.encampment {  fill: $encampment; }
