@@ -1,7 +1,9 @@
 $mobile: 640px;
+$tablet: 968px;
 
 main {
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   position: relative;
   @include media(max-width $mobile) {
     height: 100%;
@@ -18,8 +20,13 @@ article {
   top: $space;
   left: $space;
 
+  @include media(min-width $mobile+1 max-width $tablet) {
+    max-width: em(350);
+  }
+
   @include media(max-width $mobile) {
     position: relative;
+    max-width: 100%;
     z-index: 1;
     top: em(204);
     left: 0;
@@ -45,7 +52,7 @@ h1 {
 }
 
 #map {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   height: 100%;
   width: 100%;

@@ -7,7 +7,7 @@ var config = {
   center: [37.7605, -122.4727],
   zoom: 13,
   zoomControl: false,
-  minZoom: 13,
+  minZoom: 10,
   fullscreenControl: false,
   scrollWheelZoom: false,
   doubleClickZoom: false,
@@ -79,6 +79,14 @@ App.buildMapComponents = function () {
   var nodes = document.querySelectorAll('.toggle');
   for (var i = 0; i < nodes.length; i++) {
     nodes[i].addEventListener('click', handleCommand, false);
+  }
+
+  if (window.matchMedia("(max-width: 640px)").matches) {
+    self.map.setZoom(11);
+  } else if (window.matchMedia("(max-width: 789px)").matches) {
+    self.map.setZoom(12);
+  } else {
+    self.map.setZoom(13);
   }
 };
 
