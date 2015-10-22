@@ -85,4 +85,4 @@ def publish():
     compress()
     build()
     s3deploy()
-    log_success()
+    #log_success()

@@ -17,15 +17,15 @@ COMPRESS_OUTPUT_DIR = 'prod'
 BUILD_DIR = os.path.join(BASE_DIR, 'build')
 BAKERY_VIEWS = (
     # Django Bakery Views go here. Example:
-    # 'homelessness.apps.some_news_app.views.SomeNewsAppView',
+    'homelessness.apps.complaints.views.ComplaintListView',
 )
 AWS_STAGING_BUCKET_NAME = 'staging.projects.sfchronicle.com'
 AWS_BUCKET_NAME = 'projects.sfchronicle.com'
-AWS_MEDIA_BUCKET_NAME = 'media.projects.sfchronicle.com'
+AWS_MEDIA_BUCKET_NAME = 'projects.sfchronicle.com'
 
 VERBOSE_APP_NAME = '{}/{}'.format(
     date.today().year,
-    'homelessness'
+    'graphic-mapping-homelessness'
 )  # App name in production plus the publish year
 
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
